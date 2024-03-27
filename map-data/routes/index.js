@@ -1,3 +1,4 @@
+// 主页路由
 import express from 'express'; // 导入 Express 模块
 const router = express.Router(); // 创建路由器
 

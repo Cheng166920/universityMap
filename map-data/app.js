@@ -13,9 +13,9 @@ const app = express(); // 创建 Express 应用
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 设置视图引擎和视图文件路径
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// // 设置视图引擎和视图文件路径
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 app.use(logger('dev')); // 使用开发环境日志记录器
 app.use(express.json()); // 使用 JSON 请求体解析器
@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // 使用静态文件�
 app.use('/', indexRouter); // 使用主页路由
 app.use('/users', usersRouter); // 使用用户路由
 app.use('/university', universityRouter); // 使用大学路由
+
 // 捕获 404 并转发到错误处理程序
 app.use((req, res, next) => {
   next(createError(404));
