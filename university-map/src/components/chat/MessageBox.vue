@@ -9,14 +9,13 @@ const { message, type } = toRefs(props)
 
 <template>
  <div class="icon-text-container">
-    <div v-if="type === 'question'">
+    <div v-if="type === 'You'">
       <el-avatar icon="UserFilled" :size="25"></el-avatar>
-      <span class="text">You</span>
     </div>
     <div v-else>
       <el-avatar icon="HelpFilled" :size="25"></el-avatar>
-      <span class="text">Bot</span>
     </div>
+    <span class="text">{{ type }}</span>
   </div>
 <p> {{ message }}</p>
 </template>

@@ -9,10 +9,10 @@ const items = ref([]);
 const ans = ref([]);
 const pushData = async () => {
     if(input.value === '') return;
-    items.value.push({ message: input.value, type: 'question'});
+    items.value.push({ message: input.value, type: 'You'});
     const res = await getUniversity(input.value)
     if(res.data.length > 0) {
-        items.value.push({ message: res.data, type: 'answer'});
+        items.value.push({ message: res.data, type: 'Help'});
     }
     console.log(ans.value[0]);
     input.value = '';
@@ -41,7 +41,7 @@ placeholder="Please Input"
 @keyup.enter="pushData"
 >
 <template #append>
-    <el-button icon="Top" @click="pushData"/>
+    <el-button icon="Top"  @click="pushData"/>
 </template>
 </el-input>
 </template>
@@ -59,4 +59,10 @@ placeholder="Please Input"
     bottom: 0;
     width: 65%;
 }
+.el-input-group__append {
+    
+  background-color: #3385FF;
+  color: #FFF;
+
+ }
 </style>

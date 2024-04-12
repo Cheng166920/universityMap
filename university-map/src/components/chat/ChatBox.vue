@@ -1,7 +1,4 @@
 <script setup>
-import ChatHistory from './ChatHistory.vue';
-
-
 </script>
 
 <template>
