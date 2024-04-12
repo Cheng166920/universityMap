@@ -6,17 +6,15 @@ import cookieParser from 'cookie-parser'; // 导入 cookie 解析模块
 import logger from 'morgan'; // 导入日志记录模块
 
 import indexRouter from './routes/index.js'; // 导入主页路由模块
-import usersRouter from './routes/users.js'; // 导入用户路由模块
-import universityRouter from './routes/university/university.js'; // 导入大学路由模块
+import universityRouter from './routes/university.js'; // 导入大学路由模块
+import subjectRouter from './routes/subject.js'; // 导入学科路由模块
+import disciplineRouter from './routes/discipline.js'; // 导入学科路由模块
 
 const app = express(); // 创建 Express 应用
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// // 设置视图引擎和视图文件路径
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
+app.use('/api-docs', express.static('apidoc'));
 app.use(logger('dev')); // 使用开发环境日志记录器
 app.use(express.json()); // 使用 JSON 请求体解析器
 app.use(express.urlencoded({ extended: false })); // 使用 URL 编码解析器
@@ -24,23 +22,37 @@ app.use(cookieParser()); // 使用 cookie 解析器
 app.use(express.static(path.join(__dirname, 'public'))); // 使用静态文件中间件提供公共资源
 
 app.use('/', indexRouter); // 使用主页路由
-app.use('/users', usersRouter); // 使用用户路由
 app.use('/university', universityRouter); // 使用大学路由
+app.use('/subject', subjectRouter); // 使用学科路由
+app.use('/discipline', disciplineRouter); // 使用学科路由
 
 // 捕获 404 并转发到错误处理程序
 app.use((req, res, next) => {
   next(createError(404));
 });
 
-// 错误处理程序
-app.use((err, req, res, next) => {
-  // 设置本地变量，仅在开发环境中提供错误信息
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // 渲染错误页面
-  res.status(err.status || 500);
-  res.render('error');
-});
+// 自定义错误处理中间件
+const errorHandler = (err, req, res, next) => {
+      // 如果错误对象中没有状态码，则默认为 500
+    const statusCode = err.statusCode || 500;
+    // 如果错误对象中没有消息，则默认为 "Internal Server Error"
+    const message = err.message || "Internal Server Error";
+    // 构造要发送给客户端的响应对象
+    const response = {
+      status: statusCode,
+      message: message
+    };
+    // 如果错误对象中有结果，则将结果添加到响应对象中
+    if (err.result) {
+      response.result = err.result;
+    }
+    // 发送带有状态码、消息和结果的响应
+    res.status(statusCode).json(response);
+    
+};
+
+// 在应用中使用错误处理中间件
+app.use(errorHandler);
 
 export default app; // 导出 Express 应用
