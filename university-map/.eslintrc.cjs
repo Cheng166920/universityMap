@@ -10,5 +10,13 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
+  },
+  rules: {
+    'vue/multi-word-component-names': [
+      'warn',
+      {
+        ignores: ['index', 'home'] // vue组件名称多单词组成（忽略index.vue）
+      }
+    ]
   }
 }
