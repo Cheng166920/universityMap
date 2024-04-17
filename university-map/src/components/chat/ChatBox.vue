@@ -18,7 +18,7 @@
     padding: 0;
     top: 50px;
     width: 98%;
-    height: 80%;
+    height: 85%;
     overflow: hidden;
   }
 .layout-container-demo .el-aside {

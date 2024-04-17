@@ -34,12 +34,18 @@ const scrollToBottom = () => {
 </script>
 
 <template>
+
 <el-scrollbar ref="scrollbar">
+    <div class="tip" v-if="items.length === 0">
+        <el-icon :size="20" ><HelpFilled /></el-icon>
+        <strong>How can I help you today?</strong>
+    </div>
     <MessageBox v-for="item in items" :key="item.message" :message=item.message :type="item.type" />
 </el-scrollbar>
 <el-input
 v-model="input"
 size="large"
+
 placeholder="Please Input"
 @keyup.enter="pushData"
 >
@@ -54,8 +60,20 @@ placeholder="Please Input"
   border-right: none;
 }
 .el-scrollbar {
-    height: 90%;
+    height: 85%;
     padding: auto;
+}
+.tip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    flex-direction: column; /* 垂直对齐元素 */
+    align-items: center;
+    justify-content: center;
 }
 .el-input{
     position: absolute;
