@@ -18,6 +18,7 @@ export const useItemsStore = defineStore('chat', () => {
     // 清空items
     const clearItems = () => {
         items.value.splice(0, items.value.length); 
+        console.log(items.value);
     };
     const restoreItems = (index) => {
         curIndex = index;

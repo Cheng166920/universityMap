@@ -12,8 +12,8 @@ let input = ref('');
 //const items = ref([]);
 const pushData = async () => {
     if(input.value === '') return;
-    addItem({ message: input.value, type: 'You'});
     const res = await getUniversity(input.value)
+    addItem({ message: input.value, type: 'You'});
     if(res.data.length > 0) {
         addItem({ message: res.data, type: 'Help'});
     }
@@ -40,7 +40,7 @@ const scrollToBottom = () => {
         <el-icon :size="20" ><HelpFilled /></el-icon>
         <strong>How can I help you today?</strong>
     </div>
-    <MessageBox v-for="item in items" :key="item.message" :message=item.message :type="item.type" />
+    <MessageBox v-for="item in items" :key="item" :message=item.message :type="item.type" />
 </el-scrollbar>
 <el-input
 v-model="input"
@@ -60,8 +60,9 @@ placeholder="Please Input"
   border-right: none;
 }
 .el-scrollbar {
-    height: 85%;
+    height: 90%;
     padding: auto;
+    padding-bottom: 5px;
 }
 .tip {
     position: absolute;
