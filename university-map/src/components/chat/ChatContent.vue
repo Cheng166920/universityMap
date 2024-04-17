@@ -3,18 +3,21 @@ import { ref } from 'vue';
 import { onUpdated } from 'vue';
 import MessageBox from './MessageBox.vue';
 import { getUniversity } from '../../api/university';
+import { useItemsStore } from '../../stores/chat';
+
+
+const { items, addItem } = useItemsStore();
 //获取输入框的值，并将其添加到对话框中
 let input = ref('');
-const items = ref([]);
-const ans = ref([]);
+//const items = ref([]);
 const pushData = async () => {
     if(input.value === '') return;
-    items.value.push({ message: input.value, type: 'You'});
+    addItem({ message: input.value, type: 'You'});
     const res = await getUniversity(input.value)
     if(res.data.length > 0) {
-        items.value.push({ message: res.data, type: 'Help'});
+        addItem({ message: res.data, type: 'Help'});
     }
-    console.log(ans.value[0]);
+
     input.value = '';
 }
 
@@ -65,4 +68,4 @@ placeholder="Please Input"
   color: #FFF;
 
  }
-</style>
+</style>../../stores/chat
