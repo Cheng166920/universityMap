@@ -11,12 +11,13 @@
 
 <template>
   <div class="title">
-    <el-link :underline="false" type="primary" icon="Opportunity" href="/home">高考地图</el-link>
+    <el-link :underline="false" type="primary" icon="Opportunity" href="/home" >高考地图</el-link>
   </div>
   <router-view/>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
+
 .title {
   position: absolute;
   top: 10px;
@@ -24,6 +25,10 @@
 }
 .el-link {
   font-size: large;
+  color: @primary-color;
+}
+.el-link:hover {
+  color: @primary-color-light;
 }
 
 </style>

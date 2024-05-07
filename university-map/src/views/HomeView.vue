@@ -7,6 +7,7 @@
         :default-active="$route.path"
         mode="horizontal"
         :ellipsis="false"
+        active-text-color="#74A89B"
         router
     >
       <el-menu-item index="/home">
@@ -27,7 +28,7 @@
 
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .nav {
   position: absolute;
   top: 10px;
@@ -43,7 +44,10 @@
   text-align: center;
   text-decoration: none;
 }
-.el-menu--horizontal > .el-menu-item.is-active {
+
+.el-menu--horizontal > .el-menu-item:hover {
   border-bottom: none;
+  color: @primary-color;
 }
 </style>
+

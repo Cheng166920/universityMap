@@ -13,9 +13,11 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.6.8",
+    "dexie": "^4.0.4",
     "element-plus": "^2.6.3",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "pinia-plugin-persistedstore": "^1.0.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
@@ -25,9 +27,13 @@
     "@vue/eslint-config-prettier": "^9.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
     "prettier": "^3.2.5",
+    "style-resources-loader": "^1.5.0",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",
-    "vite": "^5.2.8"
+    "vite": "^5.2.8",
+    "vite-plugin-style-import": "^2.0.0"
   }
 }

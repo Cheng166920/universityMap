@@ -31,6 +31,7 @@ const deleteChat = (index) => {
                 v-show="hoverIndex === index"
                 icon="Delete"
                 @click.stop="deleteChat(index)"
+                class="delete-icon-color"
             >
             </el-button>
         </el-menu-item>
@@ -38,20 +39,31 @@ const deleteChat = (index) => {
 </el-scrollbar>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .el-menu {
     border-right: none;
 }
 .el-button {
     width: 100%;
     margin-bottom: 10px;
+    background-color: @primary-color;
+    border-color: @primary-color;
 }
+// 鼠标悬浮 .el-button 颜色变浅
+.el-button:hover {
+    background-color: @primary-color-light;
+    border-color: @primary-color-light;
 
+}
 .el-scrollbar .el-button {
     right: 5px; 
     width: 5px;
     border: 0cap;
     position: absolute;
     background-color: #ffffff00;
+}
+
+.delete-icon-color {
+  color: @primary-color;
 }
 </style>

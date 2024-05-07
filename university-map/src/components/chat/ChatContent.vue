@@ -17,7 +17,6 @@ const pushData = async () => {
     if(res.data.length > 0) {
         addItem({ message: res.data, type: 'Help'});
     }
-
     input.value = '';
 }
 
@@ -40,7 +39,14 @@ const scrollToBottom = () => {
         <el-icon :size="20" ><HelpFilled /></el-icon>
         <strong>How can I help you today?</strong>
     </div>
-    <MessageBox v-for="item in items" :key="item" :message=item.message :type="item.type" />
+    <MessageBox 
+        v-for="item in items" 
+        :key="item" 
+        :message=item.message 
+        :type="item.type" 
+    >
+        <span class="text">{{ item.type }}</span>
+    </MessageBox>
 </el-scrollbar>
 <el-input
 v-model="input"
@@ -55,7 +61,7 @@ placeholder="Please Input"
 </el-input>
 </template>
 
-<style>
+<style lang="less">
 .el-menu {
   border-right: none;
 }
@@ -82,9 +88,13 @@ placeholder="Please Input"
     width: 65%;
 }
 .el-input-group__append {
-    
-  background-color: #3385FF;
-  color: #FFF;
-
+    background-color: @primary-color;
+    color: #FFF;
  }
+.text {
+  margin-left: 10px; /* 调整图标和文字之间的距离 */
+  font-size: 14px; /* 调整文字大小 */
+  color: #000; /* 根据需要调整文字颜色 */
+  font-weight: bold; /* 根据需要调整文字粗细 */
+}
 </style>../../stores/chat
