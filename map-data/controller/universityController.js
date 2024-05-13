@@ -176,3 +176,28 @@ export const getDoubleFirstClassUniversity = async (req, res, next) => {
     next(error);
   }
 }
+
+
+// 获取大学排名信息
+/**
+ * @api {get} /university/rank 获取大学排名信息
+ * @apiName GetUniversityRank
+ * @apiGroup University
+ * 
+ * @apiParam {String} university_name 大学名称.
+ * 
+ * @apiSuccess {Object[]} rows 大学排名信息数组.
+ * @apiSuccess {Number} rows.times_2024 2024年泰晤士高等教育排名.
+ * @apiSuccess {Number} rows.us_news 美国新闻与世界报道排名.
+ * @apiSuccess {Number} rows.qs QS世界大学排名.
+ */
+
+export const getUniversityRank = async (req, res, next) => {
+  try {
+    const { university_name} = req.params;
+    const { rows } = await pool.query('SELECT times_2024, us_news, qs FROM university_rank WHERE university_name = $1', [university_name]);
+    sendResponse(res, rows);
+  } catch (error) {
+    next(error);
+  }
+}

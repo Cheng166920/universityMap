@@ -7,6 +7,7 @@ import { getProvinceList } from '../controller/universityController.js';
 import { getUniversityByName } from '../controller/universityController.js';
 import { getUniversityListByProvince } from '../controller/universityController.js';
 import { getDoubleFirstClassUniversity } from '../controller/universityController.js';
+import { getUniversityRank } from '../controller/universityController.js';
 const router = express.Router();
 
 // 获取所有大学信息
@@ -25,4 +26,6 @@ router.get('/name/:university_name', getUniversityByName);
 router.get('/province/:province', getUniversityListByProvince);
 // 获取双一流大学列表
 router.get('/double_first_class', getDoubleFirstClassUniversity);
+// 获取大学排名信息
+router.get('/rank/:university_name', getUniversityRank);
 export default router;

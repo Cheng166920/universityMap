@@ -70,16 +70,16 @@
     <ul id="cards-level0" class="cardlist"></ul>
     <ul id="cards-level1" class="cardlist"></ul>
     <ul id="cards-level2" class="cardlist"></ul> 
-  </div> --> -->
+  </div> -->
 </template>
 
 <script>
     import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-    import mapboxgl, { accessToken } from 'mapbox-gl'; 
+    import mapboxgl from 'mapbox-gl'; 
     import 'mapbox-gl/dist/mapbox-gl.css';
     import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
     import '@mapbox/search-js-web'
-    import { MapboxSearchBox } from '@mapbox/search-js-web';
+    // import { MapboxSearchBox } from '@mapbox/search-js-web';
 	export default {
 		name: 'mapboxMap',
 		data() {

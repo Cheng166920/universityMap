@@ -1,6 +1,10 @@
 <script setup>
 import { defineProps, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router';
+import { useItemsStore } from '../../stores/chat';
+import { getUniversityRank } from '../../api/university';
+
+const { addItem } = useItemsStore();
 // 来自父组件的message
 const props = defineProps(['message', 'type'])
 // 从父组件接收的message
@@ -13,11 +17,47 @@ if (type.value === 'You') {
   icon.value = 'HelpFilled'
 }
 
+// 图标
+const img = ref('')
+console.log(message.value[0])
+if (message.value[0] !== undefined && message.value[0]['type'] === '985') {
+  img.value = '../../src/assets/images/' + message.value[0]['university_name'] + '.png'
+} else {
+  img.value = '../../src/assets/images/' + 'default' + '.png'
+}
+
 const router = useRouter()
 const showMap = () => {
   const params = message.value[0]['university_name']
   router.push({ path: '/map', query: { name: params }})
 }
+
+const showRank = async () => {
+  let content = []
+  const res = await getUniversityRank(message.value[0]['university_name'])
+  if (res.data[0]['times_2024']) {
+    content.push('泰晤士高等教育排名：'+ res.data[0]['times_2024'])
+  }
+  if (res.data[0]['us_news']) {
+    content.push('U.S.News 排名：' + res.data[0]['us_news'])
+  }
+  let qs_rank = res.data[0]['qs']
+  if (qs_rank) {
+    const qs = qs_rank.replace('[', '').replace(')', '').split(',')
+    if (Number(qs[0]) + 1 === Number(qs[1])) {
+      qs_rank = qs[0]
+    } else {
+      qs_rank = qs.join(' - ')
+    }
+    content.push('QS 排名：' +  qs_rank)
+  }
+  addItem({ message: { university_name: message.value[0]['university_name'], desc: content.join('； ')}, type: 'Other'})
+}
+
+const showPlan = () => {
+  addItem({ message: { university_name: message.value[0]['university_name'], desc: '强基计划、高校专项计划'}, type: 'Other'})
+}
+
 </script>
 
 <template>
@@ -28,10 +68,14 @@ const showMap = () => {
   <div v-if="type==='You'">
     <p>{{ message }}</p>
   </div>
-  <div v-else class="card"> 
+  <div v-if="type==='Other'">
+    <p><strong>{{ message['university_name'] }}</strong></p>
+    <p>{{ message['desc'] }}</p>
+  </div>
+  <div v-if="type==='Help'" class="card"> 
     <!-- <p v-html="chatMessage"></p> -->
     <div class="base-info">
-      <img src="../../assets/images/whu-icon.png" style="height:100px;margin:10px">
+      <img :src=img style="height:100px;margin:10px">
       <h1 >{{ message[0]['university_name'] }}</h1>
       <p>{{ message[0]['university_nature'] }} | {{ message[0]['university_level'] }} | {{ message[0]['type'] }}</p>
     </div>
@@ -39,14 +83,15 @@ const showMap = () => {
       <p>武汉大学成立于1893年，位于中国湖北省武汉市，是中国最早的现代国立大学之一。经过数次更名和重组，于1928年正式更名为武汉大学，成为中国著名的综合性高等学府之一。</p>
       <div class="location">
         <el-link @click="showMap">大学位置</el-link>
-        <el-link>大学排名</el-link>
-        <el-link>招生计划</el-link>
+        <el-link @click="showRank">大学排名</el-link>
+        <el-link @click="showPlan">招生计划</el-link>
       </div>
     </div>
     <div class="discipline-info">
       <p><strong>学科: </strong></p>
       <p>{{ message[0]['construction_discipline'] }}</p>
     </div>
+
   </div>
 </template>
 
