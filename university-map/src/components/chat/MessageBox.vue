@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, toRefs } from 'vue'
+import { defineProps, defineEmits, onUpdated, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router';
 import { useItemsStore } from '../../stores/chat';
 import { getUniversityRank } from '../../api/university';
@@ -58,6 +58,11 @@ const showPlan = () => {
   addItem({ message: { university_name: message.value[0]['university_name'], desc: '强基计划、高校专项计划'}, type: 'Other'})
 }
 
+const emit = defineEmits(['update'])
+onUpdated(() => {
+  emit('update')
+  console.log('子组件更新了')
+})
 </script>
 
 <template>

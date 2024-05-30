@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { onUpdated } from 'vue';
 import MessageBox from './MessageBox.vue';
 import { getUniversity } from '../../api/university';
+import { getUniversityName } from '../../api/model';
 import { useItemsStore } from '../../stores/chat';
 
 
@@ -12,22 +13,35 @@ let input = ref('');
 //const items = ref([]);
 const pushData = async () => {
     if(input.value === '') return;
-    const res = await getUniversity(input.value)
+    let universityName = await getUniversityName(input.value);
+    console.log(universityName);
+    if(universityName.code === 200) {
+        console.log(universityName.data.university_name);
+    } else {
+        universityName = await getUniversityName(input.value);
+        console.log(universityName.data.university_name);
+    }
+    const res = await getUniversity(universityName.data.university_name)
     addItem({ message: input.value, type: 'You'});
     if(res.data.length > 0) {
         addItem({ message: res.data, type: 'Help'});
+    } else {
+        addItem({ message: '没有找到相关信息', type: 'Help'});
     }
     input.value = '';
 }
 
 // 每次更新后滚动到底部
 const scrollbar = ref(null);
-onUpdated(() => {
-  scrollToBottom();
+onUpdated(async () => {
+    await nextTick();
+    scrollToBottom();
 });
 const scrollToBottom = () => {
-    const scroll = scrollbar.value;
-    scroll.setScrollTop(scroll.$el.scrollHeight);
+    // const scroll = scrollbar.value;
+    // scroll.setScrollTop(scroll.$el.scrollHeight);
+    console.log(scrollbar.value.wrap);
+    scrollbar.value.$el.scrollTop = scrollbar.value.$el.scrollHeight;
 }
 
 </script>
@@ -41,6 +55,7 @@ const scrollToBottom = () => {
     </div>
     <MessageBox 
         v-for="item in items" 
+        @update="scrollToBottom"
         :key="item" 
         :message=item.message 
         :type="item.type" 
